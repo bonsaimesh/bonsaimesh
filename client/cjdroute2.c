@@ -334,7 +334,8 @@ static int genconf(struct Random* rand, bool eth)
            "        // Default: enabled with keepNetAdmin\n"
            "        { \"setuser\": \"nobody\", \"keepNetAdmin\": 1 },\n"
            "\n"
-           "        // Chroot changes the filesystem root directory which Bonsai sees, blocking it\n"
+           "        // Chroot changes the filesystem root directory"
+           "        // which Bonsai sees, blocking it"
            "        // from accessing files outside of the chroot sandbox, if the user does not\n"
            "        // have permission to use chroot(), this will fail quietly.\n"
            "        // Use { \"chroot\": 0 } to disable.\n");
