@@ -208,15 +208,15 @@ static int genconf(struct Random* rand, bool eth)
            "                // \"all\" is a pseudo-name which will try to connect to all devices.\n"
            "                \"bind\": \"all\",\n"
            "\n"
-           "                // Auto-connect to other cjdns nodes on the same network.\n"
+           "                // Auto-connect to other BonsaiMesh nodes on the same network.\n"
            "                // Options:\n"
            "                //\n"
            "                // 0 -- Disabled.\n"
            "                //\n"
-           "                // 1 -- Accept beacons, this will cause cjdns to accept incoming\n"
+           "                // 1 -- Accept beacons, this will cause BonsaiMesh to accept incoming\n"
            "                //      beacon messages and try connecting to the sender.\n"
            "                //\n"
-           "                // 2 -- Accept and send beacons, this will cause cjdns to broadcast\n"
+           "                // 2 -- Accept and send beacons, this will cause bonsai to broadcast\n"
            "                //      messages on the local network which contain a randomly\n"
            "                //      generated per-session password, other nodes which have this\n"
            "                //      set to 1 or 2 will hear the beacon messages and connect\n"
@@ -249,7 +249,7 @@ static int genconf(struct Random* rand, bool eth)
            "            //\"6743gf5tw80ExampleExampleExampleExamplevlyb23zfnuzv0.k\",\n"
            "        ]\n"
            "\n"
-           "        // The interface which is used for connecting to the cjdns network.\n"
+           "        // The interface which is used for connecting to the BonsaiMesh network.\n"
            "        \"interface\":\n"
            "        {\n"
            "            // The type of interface (only TUNInterface is supported for now)\n"
@@ -267,8 +267,8 @@ static int genconf(struct Random* rand, bool eth)
 #endif
     printf("        },\n"
            "\n"
-           "        // System for tunneling IPv4 and ICANN IPv6 through cjdns.\n"
-           "        // This is using the cjdns switch layer as a VPN carrier.\n"
+           "        // System for tunneling IPv4 and ICANN IPv6 through BonsaiMesh.\n"
+           "        // This is using the Bonsai switch layer as a VPN carrier.\n"
            "        \"ipTunnel\":\n"
            "        {\n"
            "            // Nodes allowed to connect to us.\n"
@@ -318,11 +318,11 @@ static int genconf(struct Random* rand, bool eth)
            "    },\n"
            "\n");
     printf("    // Dropping permissions.\n"
-           "    // In the event of a serious security exploit in cjdns, leak of confidential\n"
+           "    // In the event of a serious security exploit in Bonsai, leak of confidential\n"
            "    // network traffic and/or keys is highly likely but the following rules are\n"
-           "    // designed to prevent the attack from spreading to the system on which cjdns\n"
+           "    // designed to prevent the attack from spreading to the system on which Bonsai\n"
            "    // is running.\n"
-           "    // Counter-intuitively, cjdns is *more* secure if it is started as root because\n"
+           "    // Counter-intuitively, Bonsai is *more* secure if it is started as root because\n"
            "    // non-root users do not have permission to use chroot or change usernames,\n"
            "    // limiting the effectiveness of the mitigations herein.\n"
            "    \"security\":\n"
@@ -334,7 +334,7 @@ static int genconf(struct Random* rand, bool eth)
            "        // Default: enabled with keepNetAdmin\n"
            "        { \"setuser\": \"nobody\", \"keepNetAdmin\": 1 },\n"
            "\n"
-           "        // Chroot changes the filesystem root directory which cjdns sees, blocking it\n"
+           "        // Chroot changes the filesystem root directory which Bonsai sees, blocking it\n"
            "        // from accessing files outside of the chroot sandbox, if the user does not\n"
            "        // have permission to use chroot(), this will fail quietly.\n"
            "        // Use { \"chroot\": 0 } to disable.\n");
@@ -347,20 +347,20 @@ static int genconf(struct Random* rand, bool eth)
            "        { \"chroot\": \"/var/run/\" },\n");
           }
     printf("\n"
-           "        // Nofiles is a deprecated security feature which prevents cjdns from opening\n"
+           "        // Nofiles is a deprecated security feature which prevents Bonsai from opening\n"
            "        // any files at all, using this will block setting of IP addresses and\n"
            "        // hot-adding ETHInterface devices but for users who do not need this, it\n"
            "        // provides a formidable sandbox.\n"
            "        // Default: disabled\n"
            "        { \"nofiles\": 0 },\n"
            "\n"
-           "        // Noforks will prevent cjdns from spawning any new processes or threads,\n"
+           "        // Noforks will prevent Bonsai from spawning any new processes or threads,\n"
            "        // this prevents many types of exploits from attacking the wider system.\n"
            "        // Default: enabled\n"
            "        { \"noforks\": 1 },\n"
            "\n"
-           "        // Seccomp is the most advanced sandboxing feature in cjdns, it uses\n"
-           "        // SECCOMP_BPF to filter the system calls which cjdns is able to make on a\n"
+           "        // Seccomp is the most advanced sandboxing feature in Bonsai, it uses\n"
+           "        // SECCOMP_BPF to filter the system calls which Bonsai is able to make on a\n"
            "        // linux system, strictly limiting it's access to the outside world\n"
            "        // This will fail quietly on any non-linux system\n");
           if (Defined(android)) {
@@ -385,12 +385,12 @@ static int genconf(struct Random* rand, bool eth)
            "    // Logging\n"
            "    \"logging\":\n"
            "    {\n"
-           "        // Uncomment to have cjdns log to stdout rather than making logs available\n"
+           "        // Uncomment to have Bonsai log to stdout rather than making logs available\n"
            "        // via the admin socket.\n"
            "        // \"logTo\":\"stdout\"\n"
            "    },\n"
            "\n"
-           "    // If set to non-zero, cjdns will not fork to the background.\n"
+           "    // If set to non-zero, Bonsai will not fork to the background.\n"
            "    // Recommended for use in conjunction with \"logTo\":\"stdout\".\n");
            // ATTENTION: there is no trailing comma here because this is the LAST ENTRY
            //            the next one ("pipe") is commented out. If you add something below
@@ -412,21 +412,21 @@ static int genconf(struct Random* rand, bool eth)
 static int usage(struct Allocator* alloc, char* appName)
 {
     char* sysInfo = SysInfo_describe(SysInfo_detect(), alloc);
-    printf("Cjdns %s %s\n"
+    printf("BonsaiMesh %s %s\n"
            "Usage:\n"
-           "    cjdroute --help                This information\n"
-           "    cjdroute --genconf [--no-eth]  Generate a configuration file, write it to stdout\n"
+           "    bonsai --help                This information\n"
+           "    bonsai --genconf [--no-eth]  Generate a configuration file, write it to stdout\n"
            "                                   if --no-eth is specified then eth beaconing will\n"
            "                                   be disabled.\n"
-           "    cjdroute --bench               Run some cryptography performance benchmarks.\n"
-           "    cjdroute --version             Print the protocol version which this node speaks.\n"
-           "    cjdroute --cleanconf < conf    Print a clean (valid json) version of the config.\n"
-           "    cjdroute --nobg                Never fork to the background no matter the config.\n"
+           "    bonsai --bench               Run some cryptography performance benchmarks.\n"
+           "    bonsai --version             Print the protocol version which this node speaks.\n"
+           "    bonsai --cleanconf < conf    Print a clean (valid json) version of the config.\n"
+           "    bonsai --nobg                Never fork to the background no matter the config.\n"
            "\n"
            "To get the router up and running.\n"
            "Step 1:\n"
            "  Generate a new configuration file.\n"
-           "    cjdroute --genconf > cjdroute.conf\n"
+           "    bonsai --genconf > bonsai.conf\n"
            "\n"
            "Step 2:\n"
            "  Find somebody to connect to.\n"
@@ -440,7 +440,7 @@ static int usage(struct Allocator* alloc, char* appName)
            "\n"
            "Step 4:\n"
            "  Fire it up!\n"
-           "    sudo cjdroute < cjdroute.conf\n"
+           "    sudo bonsai < bonsai.conf\n"
            "\n"
            "For more information about other functions and non-standard setups, see README.md\n",
            ArchInfo_getArchStr(), sysInfo);
@@ -551,8 +551,8 @@ int main(int argc, char** argv)
         } else if ((CString_strcmp(argv[1], "--version") == 0)
             || (CString_strcmp(argv[1], "-v") == 0))
         {
-            printf("Cjdns version: %s\n", CJD_PACKAGE_VERSION);
-            printf("Cjdns protocol version: %d\n", Version_CURRENT_PROTOCOL);
+            printf("BonsaiMesh version: %s\n", CJD_PACKAGE_VERSION);
+            printf("BonsaiMesh protocol version: %d\n", Version_CURRENT_PROTOCOL);
             return 0;
         } else if (CString_strcmp(argv[1], "--cleanconf") == 0) {
             // Performed after reading configuration
@@ -665,7 +665,7 @@ int main(int argc, char** argv)
     char* corePath = Process_getPath(allocator);
 
     if (!corePath) {
-        Except_throw(eh, "Can't find a usable cjdns core executable, "
+        Except_throw(eh, "Can't find a usable BonsaiMesh core executable, "
                          "make sure it is in the same directory as cjdroute");
     }
 
@@ -729,7 +729,7 @@ int main(int argc, char** argv)
 
     int64_t* noBackground = Dict_getIntC(&config, "noBackground");
     if (forceNoBackground || (noBackground && *noBackground)) {
-        Log_debug(logger, "Keeping cjdns client alive because %s",
+        Log_debug(logger, "Keeping Bonsai client alive because %s",
             (forceNoBackground) ? "--nobg was specified on the command line"
                                 : "noBackground was set in the configuration");
         EventBase_beginLoop(eventBase);
