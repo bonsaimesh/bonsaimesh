@@ -437,7 +437,7 @@ static int usage(struct Allocator* alloc, char* appName)
            "  Read more here: https://github.com/cjdelisle/cjdns/#2-find-a-friend\n"
            "\n"
            "Step 3:\n"
-           "  Add that somebody's node to your cjdroute.conf file.\n"
+           "  Add that somebody's node to your bonsai.conf file.\n"
            "  https://github.com/cjdelisle/cjdns/#3-connect-your-node-to-your-friends-node\n"
            "\n"
            "Step 4:\n"
