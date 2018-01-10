@@ -348,7 +348,8 @@ static int genconf(struct Random* rand, bool eth)
            "        { \"chroot\": \"/var/run/\" },\n");
           }
     printf("\n"
-           "        // Nofiles is a deprecated security feature which prevents Bonsai from opening\n"
+           "        // Nofiles is a deprecated security feature "
+           "        which prevents Bonsai from opening\n"
            "        // any files at all, using this will block setting of IP addresses and\n"
            "        // hot-adding ETHInterface devices but for users who do not need this, it\n"
            "        // provides a formidable sandbox.\n"
