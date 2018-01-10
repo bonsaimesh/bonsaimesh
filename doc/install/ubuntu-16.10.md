@@ -12,8 +12,8 @@ This is a short guide how to setup an Ubuntu cjdns box. Make sure you are runnin
 	git clone https://github.com/bonsaimesh/bonsaimesh.git
 	cd bonsaimesh
 	./do
-	ln -s /opt/cjdns/bonsai /usr/bin
-	cp contrib/systemd/bonsai.service /etc/systemd/system/
-	cp contrib/systemd/bonsai-resume.service /etc/systemd/system/
-	systemctl enable bonsai
-	systemctl start bonsai
+	ln -s /opt/bonsaimesh/bonsai /usr/bin
+	cp contrib/systemd/cjdns.service /etc/systemd/system/
+	cp contrib/systemd/cjdns-resume.service /etc/systemd/system/
+	systemctl enable cjdns
+	systemctl start cjdns
